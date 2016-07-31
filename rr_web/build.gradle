@@ -31,6 +31,8 @@ ext {
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
+    mavenCentral()
+    jcenter()
 }
 
 dependencyManagement {
@@ -60,6 +62,7 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
 }
 
 task wrapper(type: Wrapper) {
