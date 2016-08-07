@@ -19,7 +19,7 @@ class PersonController {
     }
 
     def show(Person person) {
-        def result = [person: person.name]
+        def result = [person: person?.name]
         render result as JSON
     }
 
