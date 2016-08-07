@@ -3,6 +3,8 @@ package mx.uamex
 class Person {
 
     static constraints = {
+    	dateCreate(nullable: true)
+    	lastUpdate(nullable: true)
     }
     
     String name
