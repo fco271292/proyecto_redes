@@ -2,6 +2,7 @@ package mx.uamex
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import grails.converters.*
 
 @Transactional(readOnly = false)
 class PersonController {
@@ -18,7 +19,8 @@ class PersonController {
     }
 
     def show(Person person) {
-        respond person
+        def result = [person: person.name]
+        render result as JSON
     }
 
     def create() {
