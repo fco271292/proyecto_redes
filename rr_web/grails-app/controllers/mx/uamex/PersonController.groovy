@@ -14,8 +14,8 @@ class PersonController {
         //respond Person.list(params), model:[personCount: Person.count()]
         //render "Hello ${new Date()}"
         //Person person = new Person(name: "Fco", dateCreate: new Date(),lastUpdate:new Date())
-        render(view: "/index", model : [persons:Person.list()])
-
+        //render(view: "/index", model : [persons:Person.list()])
+        render Person.list() as JSON
     }
 
     def show(Person person) {

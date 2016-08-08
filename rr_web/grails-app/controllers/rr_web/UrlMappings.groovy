@@ -13,5 +13,7 @@ class UrlMappings {
         "500"(view:'/error')
         "404"(view:'/notFound')
         "/persons" (resources:"person")
+        "/houses" (resources:"house")
+        "/cars" (resources:"car")   
     }
 }
