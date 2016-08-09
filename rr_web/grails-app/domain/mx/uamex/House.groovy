@@ -7,5 +7,5 @@ class House {
 
     String direccion
 
-    Person person
+    static belongsTo = [person : Person]
 }
