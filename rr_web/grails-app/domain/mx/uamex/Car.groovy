@@ -6,5 +6,7 @@ class Car {
     }
 
     String marca
+
+    static belongsTo = [person : Person]
     
 }
