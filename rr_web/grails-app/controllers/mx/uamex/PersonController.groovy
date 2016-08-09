@@ -10,12 +10,12 @@ class PersonController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        //params.max = Math.min(max ?: 10, 100)
-        //respond Person.list(params), model:[personCount: Person.count()]
+        params.max = Math.min(max ?: 10, 100)
+        respond Person.list(params), model:[personCount: Person.count()]
         //render "Hello ${new Date()}"
         //Person person = new Person(name: "Fco", dateCreate: new Date(),lastUpdate:new Date())
         //render(view: "/index", model : [persons:Person.list()])
-        render Person.list() as JSON
+        //render Person.list() as JSON
     }
 
     def show(Person person) {
