@@ -3,15 +3,20 @@ package mx.uamex
 class Person {
 
 	static constraints = {
-		dateCreate(nullable: true)
-		lastUpdate(nullable: true)
-		house unique: true
+		dateCreated (nullable: true)
+		lastUpdated (nullable: true)
+		house unique: true, nullable: true
+	}
+
+	static mapping = {
+		autoTimestamp true
 	}
 
 	String name
-	Date dateCreate
-	Date lastUpdate
+	Date dateCreated 
+	Date lastUpdated 
 
-	static hasOne = [house:House]
-	static hasMany = [cars:Car]
+	static hasOne = [house : House]
+	static hasMany = [cars : Car]
+
 }
