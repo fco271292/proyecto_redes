@@ -10,4 +10,6 @@ class Laboratory {
 	Date lastUpdated
 	String name
 
+	static hasMany = [bitacoras : Bitacora]
+
 }

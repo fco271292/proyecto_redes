@@ -6,17 +6,19 @@ class User {
 		name(blank: false)
 		lastName(blank: false)
 		email(blank: false, email: true)
-		username(blank: false, min: 3)
-		password(blank: false, min: 6)
+		username(size: 3..20)
+		password(size: 3..20)
 
 	}
 
 	Date dateCreated 
 	Date lastUpdated 
 	String name
-	Strina lastName
+	String lastName
 	String email
 	String username
 	String password
+
+	static hasMany = [bitacoras : Bitacora]
 	
 }

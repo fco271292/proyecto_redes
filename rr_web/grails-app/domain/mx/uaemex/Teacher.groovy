@@ -12,4 +12,6 @@ class Teacher {
 	String name
 	String lastName
 
+	static hasMany = [bitacoras : Bitacora]
+
 }
