@@ -3,9 +3,8 @@ package mx.uaemex
 class Bitacora {
 
 	static constraints = {
-		resourcePicture(nullable:true)
 		groupName(nullable:true)
-
+		resourcePicture(nullable:true)
 	}
 
 	Date dateCreated 
