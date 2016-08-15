@@ -65,6 +65,7 @@ class UserController {
             return
         }
 
+        user.password = params?.password.encodeAsPassword()
         user.save flush:true
 
         request.withFormat {
