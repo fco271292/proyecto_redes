@@ -2,7 +2,9 @@ package mx.uaemex
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured('ROLE_USER')
 @Transactional(readOnly = true)
 class UserController {
 
@@ -21,6 +23,7 @@ class UserController {
         respond new User(params)
     }
 
+    @Secured('ROLE_ADMIN')
     @Transactional
     def save(User user) {
         if (user == null) {
@@ -35,8 +38,15 @@ class UserController {
             return
         }
         
-        user.password = params?.password.encodeAsPassword()
         user.save flush:true
+        
+        //TODO: Generar servicio para crear el role de usuario
+        Role role =  Role.get(1)
+        UserRole.create user, role
+        UserRole.withSession {userRole->
+            userRole.flush()
+            userRole.clear()
+        }
 
         request.withFormat {
             form multipartForm {
@@ -51,6 +61,7 @@ class UserController {
         respond user
     }
 
+    @Secured('ROLE_ADMIN')
     @Transactional
     def update(User user) {
         if (user == null) {
@@ -65,7 +76,6 @@ class UserController {
             return
         }
 
-        user.password = params?.password.encodeAsPassword()
         user.save flush:true
 
         request.withFormat {
@@ -77,6 +87,7 @@ class UserController {
         }
     }
 
+    @Secured('ROLE_ADMIN')
     @Transactional
     def delete(User user) {
 
