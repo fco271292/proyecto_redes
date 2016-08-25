@@ -61,6 +61,8 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
+    compile 'org.grails.plugins:spring-security-core:3.0.3'
+    
 }
 
 task wrapper(type: Wrapper) {
