@@ -1,0 +1,19 @@
+{
+  "name": "rr_web",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fco271292/proyecto_redes",
+  "authors": [
+    "fco271292  <juan271292@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
