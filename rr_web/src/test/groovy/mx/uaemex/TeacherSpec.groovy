@@ -1,7 +1,7 @@
 package mx.uaemex
 
 import grails.test.mixin.TestFor
-import spock.lang.Specification
+import spock.lang.*
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -14,7 +14,7 @@ class TeacherSpec extends Specification {
 
     def cleanup() {
     }
-
+    @Ignore
     void "test something"() {
         expect:"fix me"
             true == false
