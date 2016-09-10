@@ -21,6 +21,7 @@ class LoginFragment extends Fragment {
                       @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState)
         View view = inflater.inflate(R.layout.fragment_login, container, false)
+
         mFloatingActionButtonRegistration = (FloatingActionButton) view.findViewById(R.id.fabAddUser)
         mFloatingActionButtonRegistration.onClickListener = {
            changeFragment(new RegistrationFragment())
