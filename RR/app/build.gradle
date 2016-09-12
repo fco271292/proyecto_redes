@@ -27,4 +27,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy:2.4.6:grooid'
     compile 'com.android.support:support-v4:22.2.+'
     compile 'com.android.support:design:22.2.+'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
