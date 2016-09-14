@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Salas de cómputo</string>
     <string name="bitacora">Bitacora</string>
+    <string name="error_server_503">503 - Servicio no disponible</string>
+    <string name="user_password_incorrect">Usuario o contraseña no encontrado</string>
+    <string name="user_password_correct">Usuario encontrado</string>
 </resources>
