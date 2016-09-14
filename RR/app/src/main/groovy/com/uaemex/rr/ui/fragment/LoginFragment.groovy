@@ -9,11 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.uaemex.rr.R
 import com.uaemex.rr.api.client.FabricRRWebClient
-import com.uaemex.rr.api.client.GitHubClient
-import com.uaemex.rr.api.model.UserGithubDetail
+import com.uaemex.rr.api.client.RRWebService
 import groovy.transform.CompileStatic
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,19 +53,24 @@ class LoginFragment extends Fragment {
         mButtonLogin = view.findViewById(R.id.buttonLogin) as Button
         mButtonLogin.onClickListener = {
             //changeFragment(new BitacoraFragment())
-            GitHubClient client = FabricRRWebClient.createService(GitHubClient)
+            RRWebService client = FabricRRWebClient.createService(RRWebService)
             populateForm()
-            client.getUserGithub(username).enqueue(new Callback<UserGithubDetail>() {
+            client.login(username, password).enqueue(new Callback<ResponseBody>() {
+
                 @Override
-                void onResponse(Call<UserGithubDetail> call, Response<UserGithubDetail> response) {
-                    println("*"*100)
-                    println(response.body().dump())
+                void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    String responseLogin = response.raw()
+                    if (!responseLogin.endsWith("login_error=1}")) {
+                        Toast.makeText(getActivity(), R.string.user_password_correct, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(getActivity(), R.string.user_password_incorrect, Toast.LENGTH_SHORT).show()
+                        cleanForm()
+                    }
                 }
 
                 @Override
-                void onFailure(Call<UserGithubDetail> call, Throwable t) {
-                    println("-"*100)
-                    println("${t?.message}")
+                void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), R.string.error_server_503, Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -73,8 +79,13 @@ class LoginFragment extends Fragment {
 
     }
 
-    void populateForm(){
+    void populateForm() {
         username = mEditTextUsername.text
         password = mEditTextPassword.text
+    }
+
+    void cleanForm() {
+        mEditTextUsername.text = ""
+        mEditTextPassword.text = ""
     }
 }
