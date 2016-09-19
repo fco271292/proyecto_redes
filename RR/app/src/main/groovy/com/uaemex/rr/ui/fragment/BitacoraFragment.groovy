@@ -3,12 +3,16 @@ package com.uaemex.rr.ui.fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import com.uaemex.rr.R
 import groovy.transform.CompileStatic
 
@@ -20,6 +24,12 @@ class BitacoraFragment extends Fragment{
     Spinner mSpinnerTeacher
     Spinner mSpinnerLaboratory
     Spinner mSpinnerCareer
+
+    @Override
+    void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        customToolBar()
+    }
 
     @Override
     View onCreateView(LayoutInflater inflater,
@@ -43,5 +53,14 @@ class BitacoraFragment extends Fragment{
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment)
                 .addToBackStack(null)
                 .commit()
+    }
+
+    void customToolBar() {
+        TextView titleToolbar = (TextView) getActivity().findViewById(R.id.toolbar_title)
+        titleToolbar.text = "Bitácora"
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbarRR) as Toolbar
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar)
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false)
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show()
     }
 }
