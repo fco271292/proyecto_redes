@@ -3,16 +3,15 @@
     android:id="@+id/toolbarRR"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimaryDark">
 
-    >
     <TextView
         android:id="@+id/toolbar_title"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_gravity=""
+        android:textColor="@android:color/white"
         />
+    
 </android.support.v7.widget.Toolbar>
