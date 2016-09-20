@@ -4,4 +4,9 @@
     <string name="error_server_503">503 - Servicio no disponible</string>
     <string name="user_password_incorrect">Usuario o contraseña no encontrado</string>
     <string name="user_password_correct">Usuario encontrado</string>
+    <string name="check_information">Verifica tu información</string>
+    <string name="user_save_success">Usuario guardado</string>
+    <string name="username_invalid">El nombre de usuario ya existe</string>
+    <string name="email_invalid">Correo inválido</string>
+
 </resources>
