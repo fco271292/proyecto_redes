@@ -57,6 +57,7 @@ abstract class SimpleFragment extends ActionBarActivity {
             case R.id.logout_user:
                 if (mSessionManager){
                     mSessionManager.setLogoutUser()
+                    finish()
                     Intent intent = PrincipalActivity.invokeActivity(getApplicationContext())
                     startActivity(intent)
                 }
