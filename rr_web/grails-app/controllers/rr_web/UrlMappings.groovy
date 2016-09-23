@@ -14,5 +14,9 @@ class UrlMappings {
         "404"(view:'/notFound')
         "/bitacoras"(resources:'bitacora')
         "/users"(resources:'user')
+        "/teachers"(controller: "teacher", action: "list", method: "GET")
+        "/laboratories"(controller: "laboratory", action: "list", method: "GET")
+        "/careers"(controller: "career", action: "list", method: "GET")
+        "/user"(controller: "user", action: "getUserByUsername", method: "GET")
     }
 }
