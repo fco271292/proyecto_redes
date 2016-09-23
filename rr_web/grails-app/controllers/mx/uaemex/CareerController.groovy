@@ -2,7 +2,10 @@ package mx.uaemex
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import grails.plugin.springsecurity.annotation.Secured
+import grails.converters.*
 
+@Secured(['ROLE_USER','ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class CareerController {
 
@@ -93,6 +96,10 @@ class CareerController {
             }
             '*'{ render status: NO_CONTENT }
         }
+    }
+
+    def list(){
+        render Career.list() as JSON
     }
 
     protected void notFound() {
