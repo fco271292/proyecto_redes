@@ -8,5 +8,6 @@
     <string name="user_save_success">Usuario guardado</string>
     <string name="username_invalid">El nombre de usuario ya existe</string>
     <string name="email_invalid">Correo inválido</string>
+    <string name="teacher">Docente</string>
 
 </resources>
