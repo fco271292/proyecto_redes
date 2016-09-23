@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.uaemex.rr.BuildConfig
 import com.uaemex.rr.R
 import com.uaemex.rr.api.client.FabricRRWebClient
 import com.uaemex.rr.api.client.LoginRRWebService
@@ -105,7 +106,7 @@ class RegistrationFragment extends Fragment {
 
     void generateTokenLogin(User user) {
         LoginRRWebService client = FabricRRWebClient.createService(LoginRRWebService)
-        client.tokenLogin(new JsonWebTokenCommand(username: "", password: "")).enqueue(new Callback<JsonWebToken>() {
+        client.tokenLogin(new JsonWebTokenCommand(username: BuildConfig.USER, password: BuildConfig.PASSWORD)).enqueue(new Callback<JsonWebToken>() {
             @Override
             void onResponse(Call<JsonWebToken> call, Response<JsonWebToken> response) {
                 if (response.code() == 200) {
