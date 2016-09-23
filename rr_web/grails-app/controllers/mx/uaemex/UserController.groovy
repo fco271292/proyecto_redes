@@ -3,6 +3,7 @@ package mx.uaemex
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
+import grails.converters.*
 
 @Secured(['ROLE_USER','ROLE_ADMIN'])
 @Transactional(readOnly = true)
@@ -105,6 +106,17 @@ class UserController {
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
+        }
+    }
+
+    @Secured(['ROLE_USER','ROLE_ADMIN'])
+    def getUserByUsername(){
+        def user = User.findByUsername(params.username) 
+        if(user){
+            render user as JSON 
+        }
+        else{
+            render(status: 404, text: "Not found ${params.username}") as JSON
         }
     }
 
