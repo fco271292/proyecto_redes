@@ -5,6 +5,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class User {
+
     @SerializedName("name")
     String name
     @SerializedName("lastName")
@@ -15,5 +16,7 @@ class User {
     String username
     @SerializedName("password")
     String password
+    @SerializedName("id")
+    String id
 
 }
