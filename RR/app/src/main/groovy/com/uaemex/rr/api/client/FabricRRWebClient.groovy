@@ -2,15 +2,17 @@ package com.uaemex.rr.api.client
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.uaemex.rr.BuildConfig
 import groovy.transform.CompileStatic
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@Singleton
 @CompileStatic
 class FabricRRWebClient {
 
-    static final String API_BASE_URL = "http://192.168.10.40:8080"
+    static final String API_BASE_URL = BuildConfig.URL_SERVER
 
     static OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
 
