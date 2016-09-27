@@ -1,10 +1,15 @@
 package com.uaemex.rr.ui.fragment
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +20,14 @@ import com.uaemex.rr.api.client.*
 import com.uaemex.rr.api.model.*
 import com.uaemex.rr.api.model.command.BitacoraCommand
 import com.uaemex.rr.api.service.SessionManagerImpl
+import com.uaemex.rr.util.CameraUtil
+import groovy.transform.CompileStatic
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@CompileStatic
 class BitacoraFragment extends Fragment {
 
     EditText mEditTextGroup
@@ -35,6 +43,9 @@ class BitacoraFragment extends Fragment {
     JsonWebToken mJsonWebTokenSessionManager
     JsonWebToken mJsonWebToken
     User mUser
+    CameraUtil mCameraUtil = new CameraUtil()
+    File photoFile
+    static final int CAPTURE_IMAGE = 1
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +68,9 @@ class BitacoraFragment extends Fragment {
     void bindingWidgets(View view) {
         mEditTextGroup = view.findViewById(R.id.groupNameBitacora) as EditText
         mImageViewCamera = view.findViewById(R.id.cameraBitacora) as ImageView
+        mImageViewCamera.onClickListener = {
+            launchCamera()
+        }
         mSpinnerTeacher = view.findViewById(R.id.spinnerTeacherBitacora) as Spinner
         mSpinnerLaboratory = view.findViewById(R.id.spinnerLaboratoryBitacora) as Spinner
         mSpinnerCareer = view.findViewById(R.id.spinnerCareerBitacora) as Spinner
@@ -252,6 +266,40 @@ class BitacoraFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar)
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false)
         ((AppCompatActivity) getActivity()).getSupportActionBar().show()
+    }
+
+    void launchCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(getActivity().getApplicationContext().getPackageManager()) != null) {
+            try {
+                photoFile = mCameraUtil.createPhoto("IMG")
+            } catch (IOException ex) {
+                Toast.makeText(getActivity(), "Error al tomar foto", Toast.LENGTH_SHORT).show()
+            }
+
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
+                Log.d("BitacoraFragment", takePictureIntent.dump())
+                startActivityForResult(takePictureIntent, CAPTURE_IMAGE)
+            }
+        }
+    }
+
+    @Override
+    void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAPTURE_IMAGE) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Bitmap bitmapResize = mCameraUtil.getScaledBitmap(photoFile.absolutePath, getActivity())
+                File photo = mCameraUtil.saveBitmapToFile(bitmapResize, photoFile.getName())
+                mCameraUtil.addPictureToGallery(getActivity().getApplicationContext(), photo.getPath())
+                Toast.makeText(getActivity().getApplicationContext(), R.string.take_photo_success, Toast.LENGTH_SHORT).show()
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+                Toast.makeText(getActivity(), R.string.take_photo_cancel, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(getActivity(), R.string.take_photo_error, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }
