@@ -18,5 +18,7 @@ class UrlMappings {
         "/laboratories"(controller: "laboratory", action: "list", method: "GET")
         "/careers"(controller: "career", action: "list", method: "GET")
         "/user"(controller: "user", action: "getUserByUsername", method: "GET")
+        "/documents"(controller: "document", action: "uploadFile", method: "POST")
+        "/documents"(controller: "document", action: "downloadFile", method: "GET")
     }
 }
