@@ -9,5 +9,7 @@
     <string name="username_invalid">El nombre de usuario ya existe</string>
     <string name="email_invalid">Correo inválido</string>
     <string name="teacher">Docente</string>
-
+    <string name="take_photo_success">Éxito al crear la foto</string>
+    <string name="take_photo_error">Error al capturar la foto</string>
+    <string name="take_photo_cancel">Se canceló la foto</string>
 </resources>
