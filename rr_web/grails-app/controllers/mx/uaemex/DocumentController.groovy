@@ -6,7 +6,6 @@ import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['ROLE_USER','ROLE_ADMIN'])
-@Transactional(readOnly = true)
 class DocumentController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -154,7 +153,7 @@ class DocumentController {
 			respond document.errors
 			return
 		}
-	  document.saveDocument flush:true
+	  document.save flush:true
 	  render(status: 200, text: "${document?.id}") as JSON
 	}
 	
