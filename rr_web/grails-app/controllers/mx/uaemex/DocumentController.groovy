@@ -9,6 +9,8 @@ import grails.plugin.springsecurity.annotation.Secured
 @Transactional(readOnly = true)
 class DocumentController {
 
+	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
 	def documentService
 	
 	def index(Integer max) {
