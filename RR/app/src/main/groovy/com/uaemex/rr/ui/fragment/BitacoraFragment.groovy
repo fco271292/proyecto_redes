@@ -145,7 +145,6 @@ class BitacoraFragment extends Fragment {
             client.refreshToken(grant_type, refresh_token).enqueue(new Callback<ResponseBody>() {
                 @Override
                 void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    println(response.code())
                     if (response.code() == 200) {
                         mJsonWebToken = deserializationJsonWebToken(response?.body()?.string())
                         populateSpinners(mJsonWebToken?.accessToken)
