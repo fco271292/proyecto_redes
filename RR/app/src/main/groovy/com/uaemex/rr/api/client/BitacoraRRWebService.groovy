@@ -17,7 +17,8 @@ interface BitacoraRRWebService {
             @Field("user") String user,
             @Field("teacher") String teacher,
             @Field("laboratory") String laboratory,
-            @Field("career") String career
+            @Field("career") String career,
+            @Field("document") String document
 
     )
 
