@@ -2,14 +2,113 @@ package mx.uaemex
 
 import grails.converters.*
 import grails.transaction.Transactional
+import static org.springframework.http.HttpStatus.*
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['ROLE_USER','ROLE_ADMIN'])
+@Transactional(readOnly = true)
 class DocumentController {
 
 	def documentService
 	
-	def index() { }
+	def index(Integer max) {
+    params.max = Math.min(max ?: 10, 100)
+    respond Document.list(params), model:[documentCount: Document.count()]
+  }
 
-	def uploadFile(){
+  def show(Document document) {
+  	respond document
+  }
+
+  def create() {
+  	respond new Document(params)
+  }
+
+	@Transactional
+  def save(Document document) {
+  	if (document == null) {
+  		transactionStatus.setRollbackOnly()
+  		notFound()
+  		return
+  	}
+
+  	if (document.hasErrors()) {
+  		transactionStatus.setRollbackOnly()
+  		respond teacher.errors, view:'create'
+  		return
+  	}
+
+  	document.save flush:true
+
+  	request.withFormat {
+  		form multipartForm {
+  			flash.message = message(code: 'default.created.message', args: [message(code: 'document.label', default: 'Document'), document.id])
+  			redirect document
+  		}
+  		'*' { respond teacher, [status: CREATED] }
+  	}
+  }
+
+  def edit(Document document) {
+  	respond document
+  }
+
+  @Transactional
+  def update(Document document) {
+  	if (document == null) {
+  		transactionStatus.setRollbackOnly()
+  		notFound()
+  		return
+  	}
+
+  	if (document.hasErrors()) {
+  		transactionStatus.setRollbackOnly()
+  		respond document.errors, view:'edit'
+  		return
+  	}
+
+  	document.save flush:true
+
+  	request.withFormat {
+  		form multipartForm {
+  			flash.message = message(code: 'default.updated.message', args: [message(code: 'document.label', default: 'Document'), document.id])
+  			redirect document
+  		}
+  		'*'{ respond document, [status: OK] }
+  	}
+  }
+
+  @Transactional
+  def delete(Document document) {
+
+  	if (document == null) {
+  		transactionStatus.setRollbackOnly()
+  		notFound()
+  		return
+  	}
+
+  	document.delete flush:true
+
+  	request.withFormat {
+  		form multipartForm {
+  			flash.message = message(code: 'default.deleted.message', args: [message(code: 'document.label', default: 'Document'), document.id])
+  			redirect action:"index", method:"GET"
+  		}
+  		'*'{ render status: NO_CONTENT }
+  	}
+  }
+
+  protected void notFound() {
+  	request.withFormat {
+  		form multipartForm {
+  			flash.message = message(code: 'default.not.found.message', args: [message(code: 'document.label', default: 'Document'), params.id])
+  			redirect action: "index", method: "GET"
+  		}
+  		'*'{ render status: NOT_FOUND }
+  	}
+  }
+
+  def uploadFile(){
 		def file = request.getFile('file') 
 		if(file) {
 			String originalFilename = file.filename
@@ -18,10 +117,10 @@ class DocumentController {
 	  	file.transferTo(convertFile)
 	  	documentService.uploadFile(convertFile.getAbsolutePath(),"${grailsApplication.config.server}${originalFilename}")
 	  	Document document = new Document(fileName:originalFilename,fullPath:"${grailsApplication.config.server}${originalFilename}",extentionFile:extentionFile.reverse())
-	  	save(document)
+	  	saveDocument(document)
 		} 
 		else {
-			render(status: 200, text: "OK") as JSON
+			render(status: 400, text: "BadRequest") as JSON
 		}
   }
 
@@ -42,7 +141,7 @@ class DocumentController {
   }
 
 	@Transactional
-	def save(Document document) {
+	def saveDocument(Document document) {
 		if (document == null) {
 			transactionStatus.setRollbackOnly()
 			return
@@ -53,8 +152,8 @@ class DocumentController {
 			respond document.errors
 			return
 		}
-	  document.save flush:true
-	  render(status: 200, text: "OK") as JSON
+	  document.saveDocument flush:true
+	  render(status: 200, text: "${document?.id}") as JSON
 	}
 	
 }
