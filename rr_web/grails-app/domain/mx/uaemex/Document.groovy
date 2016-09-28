@@ -9,9 +9,12 @@ class Document {
 	String extentionFile
 
 	static constraints = {
-		filename nullable:false
+		fileName nullable:false
 		fullPath nullable:false
 		extentionFile nullable:true
+		bitacora nullable:true, unique:true
 	}
+	
+	static belongsTo = [bitacora:Bitacora]
 	
 }
