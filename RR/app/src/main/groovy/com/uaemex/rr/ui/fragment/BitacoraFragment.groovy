@@ -22,6 +22,9 @@ import com.uaemex.rr.api.model.command.BitacoraCommand
 import com.uaemex.rr.api.service.SessionManagerImpl
 import com.uaemex.rr.util.CameraUtil
 import groovy.transform.CompileStatic
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,6 +49,7 @@ class BitacoraFragment extends Fragment {
     CameraUtil mCameraUtil = new CameraUtil()
     File photoFile
     static final int CAPTURE_IMAGE = 1
+    String documentId
 
     @Override
     void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,8 +80,14 @@ class BitacoraFragment extends Fragment {
         mSpinnerCareer = view.findViewById(R.id.spinnerCareerBitacora) as Spinner
         mButtonBitacora = view.findViewById(R.id.buttonRegisterBitacora) as Button
         mButtonBitacora.onClickListener = {
+            //TODO: Revisar flujo para la creacion de la bitacora, con y sin fotografia
             if (validateForm()) {
-                addBitacora(mJsonWebToken.accessToken, populateBitacora())
+                if (photoFile != null) {
+                    uploadDocument(photoFile)
+                }
+                else{
+                    addBitacora(mJsonWebToken.accessToken, populateBitacora())
+                }
             } else {
                 Toast.makeText(getActivity(), R.string.check_information, Toast.LENGTH_SHORT).show()
             }
@@ -86,7 +96,7 @@ class BitacoraFragment extends Fragment {
 
     Boolean validateForm() {
         Boolean validate = false
-        if (mEditTextGroup.text as String && mSpinnerCareer.getSelectedItem() && mSpinnerLaboratory && mSpinnerTeacher) {
+        if (mEditTextGroup.text as String && mEditTextGroup.text as String != "0"  && mSpinnerCareer.getSelectedItem() && mSpinnerLaboratory && mSpinnerTeacher) {
             validate = true
         }
         validate
@@ -105,12 +115,14 @@ class BitacoraFragment extends Fragment {
         mSpinnerCareer.setSelection(0)
         mSpinnerLaboratory.setSelection(0)
         mSpinnerTeacher.setSelection(0)
+        photoFile = null
+        documentId = null
     }
 
     void addBitacora(String tokenLogin, BitacoraCommand bitacora) {
         String authenticationHeader = "Bearer ${tokenLogin}"
         BitacoraRRWebService client = FabricRRWebClient.createService(BitacoraRRWebService)
-        client.addBitacora(authenticationHeader, bitacora.groupName, bitacora.user, bitacora.teacher, bitacora.laboratory, bitacora.career).enqueue(new Callback<ResponseBody>() {
+        client.addBitacora(authenticationHeader, bitacora.groupName, bitacora.user, bitacora.teacher, bitacora.laboratory, bitacora.career,documentId).enqueue(new Callback<ResponseBody>() {
             @Override
             void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
@@ -123,7 +135,7 @@ class BitacoraFragment extends Fragment {
             void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getActivity(), "No se puedo guardar", Toast.LENGTH_SHORT).show()
             }
-        })
+        } as Callback<ResponseBody>)
     }
 
     void recoveryToken(String refresh_token) {
@@ -144,7 +156,7 @@ class BitacoraFragment extends Fragment {
                 void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(getActivity(), R.string.error_server_503, Toast.LENGTH_SHORT).show()
                 }
-            })
+            } as Callback<ResponseBody>)
         }
     }
 
@@ -173,7 +185,7 @@ class BitacoraFragment extends Fragment {
             void onFailure(Call<List<Career>> call, Throwable t) {
 
             }
-        })
+        } as Callback<List<Career>>)
     }
 
     void getLaboratories(String tokenLogin) {
@@ -192,7 +204,7 @@ class BitacoraFragment extends Fragment {
             void onFailure(Call<List<Laboratory>> call, Throwable t) {
 
             }
-        })
+        } as Callback<List<Laboratory>>)
     }
 
     void getTeachers(String tokenLogin) {
@@ -214,7 +226,7 @@ class BitacoraFragment extends Fragment {
             void onFailure(Call<List<Teacher>> call, Throwable t) {
 
             }
-        })
+        } as Callback<List<Teacher>>)
     }
 
     void getUserByUsername(String tokenLogin, String username) {
@@ -232,7 +244,7 @@ class BitacoraFragment extends Fragment {
             void onFailure(Call<User> call, Throwable t) {
 
             }
-        })
+        } as Callback<User>)
     }
 
     JsonWebToken deserializationJsonWebToken(String response) {
@@ -299,6 +311,37 @@ class BitacoraFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), R.string.take_photo_error, Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    void uploadDocument(File file) {
+       if (mJsonWebToken && file) {
+            String authenticationHeader = "Bearer ${mJsonWebToken.accessToken}"
+            UploadFileRRWebService client = FabricRRWebClient.createService(UploadFileRRWebService)
+            File photo = new File(file.absolutePath)
+
+            RequestBody requestPhoto = RequestBody.create(MediaType.parse("multipart/form-data"), photo)
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", photo.name, requestPhoto)
+
+            String descriptionString = "File ${photo.name}"
+            RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionString)
+
+            client.uploadDocument(authenticationHeader, description, body).enqueue(new Callback<ResponseBody>() {
+                @Override
+                void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(getActivity(), R.string.upload_photo_success, Toast.LENGTH_SHORT).show()
+                        documentId = response?.body()?.string()
+                    }
+                    addBitacora(mJsonWebToken.accessToken, populateBitacora())
+                }
+
+                @Override
+                void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), R.string.upload_photo_error, Toast.LENGTH_SHORT).show()
+                    cleanBitacora()
+                }
+            } as Callback<ResponseBody>)
         }
     }
 
