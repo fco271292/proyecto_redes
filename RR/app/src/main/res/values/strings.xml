@@ -12,4 +12,6 @@
     <string name="take_photo_success">Éxito al crear la foto</string>
     <string name="take_photo_error">Error al capturar la foto</string>
     <string name="take_photo_cancel">Se canceló la foto</string>
+    <string name="upload_photo_success">Éxito al subir fotografía</string>
+    <string name="upload_photo_error">Error al subir fotografía</string>
 </resources>
