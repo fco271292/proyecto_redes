@@ -12,6 +12,11 @@
     tools:context=".ui.activity.PrincipalActivity"
     android:gravity="center">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/uaemex"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAddUser"
         android:layout_width="wrap_content"
