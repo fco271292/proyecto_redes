@@ -132,13 +132,18 @@ class DocumentController {
   		String localFilePath = remoteFilePath.reverse().takeWhile{character-> character != "." }
   		String extentionFile = "${grailsApplication.config.local}${fileName}"
   		documentService.downloadFile(remoteFilePath,localFilePath)
-  		if(new File(localFilePath).exists()){
-	   		render(status: 200, text: "OK") as JSON
-	   	}
-   	}
-   	else{
-   		render(status: 400, text: "BadRequest") as JSON	
-   	}
+      File file = new File(localFilePath)
+      if(file.exists()){
+        byte[] contentFile = file.bytes
+        response.setContentType("APPLICATION/OCTET-STREAM")
+        response.setHeader("Content-Disposition", "Attachment;Filename=\"${fileName}\"")
+        response.outputStream << contentFile
+        response.outputStream.flush()
+      }
+    }
+    else{
+      render(status: 400, text: "BadRequest") as JSON	
+    }
   }
 
 	@Transactional
