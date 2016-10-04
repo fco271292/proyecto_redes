@@ -18,7 +18,31 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${documentList}" />
+            
+            <table>
+                <thead>
+                    <tr>
+                        <g:sortableColumn property="fileName" title="File Name" />
+                        <g:sortableColumn property="fullPath" title="Full Path" />
+                        <g:sortableColumn property="extentionFile" title="Extention File" />
+                        <g:sortableColumn property="bitacora" title="Bitacora" />
+                        <g:sortableColumn property="dateCreated" title="Date created" />
+                        <g:sortableColumn property="lastUpdated" title="Last Updated" />
+                    </tr>
+                </thead>
+                <tbody>
+                    <g:each in="${documentList}" var="documentInstance">
+                        <tr>
+                            <td><g:link action="downloadFile" params="[file: documentInstance.fileName]">${documentInstance.fileName}</g:link></td>
+                            <td><g:link action="show" id="${documentInstance.id}">${documentInstance.fullPath}</g:link></td>
+                            <td>${documentInstance.extentionFile}</td>
+                            <td>${documentInstance.bitacora}</td>
+                            <td><g:formatDate date="${documentInstance.dateCreated}" /></td>
+                            <td><g:formatDate date="${documentInstance.lastUpdated}" /></td>
+                        </tr>
+                    </g:each>
+                </tbody>
+            </table>
 
             <div class="pagination">
                 <g:paginate total="${documentCount ?: 0}" />
