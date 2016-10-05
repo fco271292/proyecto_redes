@@ -4,6 +4,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'bitacora.label', default: 'Bitacora')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <r:require module="export"/>
     </head>
     <body>
         <a href="#list-bitacora" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -23,6 +24,9 @@
             <div class="pagination">
                 <g:paginate total="${bitacoraCount ?: 0}" />
             </div>
+            <p>
+                <export:formats formats="['pdf']" controller="bitacora" action="list" />
+            </p>
         </div>
     </body>
 </html>
