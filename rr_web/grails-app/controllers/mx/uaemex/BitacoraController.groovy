@@ -118,7 +118,7 @@ class BitacoraController {
             List fields = ["id", "groupName","document","user","teacher","laboratory","career","dateCreated"]
             Map labels = [id: "ID", groupName: "Grupo", document: "Fotografía", user: "Usuario", teacher: "Docente", laboratory: "Laboratorio", career: "Carrera", dateCreated: "Fecha de inicio"]
             Map parameters = [title: "Bitacora","pdf.encoding": "UTF-8","title.font.size": 14, "title.font.style": "bold","separator.color": new Color(255, 255, 255) ]
-            def bitacoraList = Bitacora.findAllWhere(user:9 as User)
+            def bitacoraList = Bitacora.list()
             
             exportService.export(params.extension, response.outputStream, bitacoraList, fields, labels, [:] , parameters)
         }
