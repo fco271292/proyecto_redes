@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_bitacora" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fbbb6de-1932-484c-a8ce-80c45eb07b6f">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="189"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="LOGO_PDF" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="bitacora_id" class="java.lang.String"/>
+	<field name="bitacora_career_id" class="java.lang.String"/>
+	<field name="bitacora_date_created" class="java.sql.Timestamp"/>
+	<field name="bitacora_document_id" class="java.lang.String"/>
+	<field name="bitacora_group_name" class="java.lang.String"/>
+	<field name="bitacora_laboratory_id" class="java.lang.String"/>
+	<field name="bitacora_teacher_id" class="java.lang.String"/>
+	<field name="bitacora_user_id" class="java.lang.String"/>
+	<group name="bitacora_id">
+		<groupExpression><![CDATA[$F{bitacora_id}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="16" width="26" height="24" forecolor="#006600" uuid="8e7c3da1-f27d-4e0e-b1bd-14adac81b22d"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="26" y="25" width="79" height="15" uuid="8f196087-287f-49f4-9b02-1348ee361444"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_date_created}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="177" y="25" width="41" height="15" uuid="29b3da0a-82b5-4c60-8dc5-3172bcca195f"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_group_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="218" y="16" width="95" height="24" uuid="a10707e1-4e6f-4130-bab0-68512aa49824"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_laboratory_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="313" y="15" width="94" height="24" uuid="b62f1914-a364-444e-8989-8e5e2f9b5567"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_career_id}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="118" y="0" width="59" height="40" uuid="4b2ac02f-b459-4c86-a5c3-03ca3d40be03"/>
+					<imageExpression><![CDATA[$F{bitacora_document_id}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement style="Detail" x="407" y="15" width="79" height="24" uuid="8724689b-656f-4360-9604-db6b33722bf4"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_teacher_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="486" y="15" width="79" height="25" uuid="d0b480ee-c64d-4a88-b8fe-b792e2b4f57e"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_user_id}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="491" height="33" uuid="4f632cd6-3c46-4fb5-a3fa-6d78edcea53e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Universidad Autónoma del Estado de México]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="33" width="313" height="22" uuid="b91b95ff-2a51-4f2c-868f-7c1362ee1798"/>
+				<text><![CDATA[Centro Universitario Valle de Chalco ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="491" y="0" width="62" height="59" uuid="69d795e7-3879-495c-93ef-4d97e996a5ab"/>
+				<imageExpression><![CDATA[$P{LOGO_PDF}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="SubTitle" x="234" y="68" width="139" height="23" uuid="c172249d-0b78-42df-b4b2-38f760eaaa0a"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Bitacora]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="5b3e39f9-8b92-4525-bceb-218df0da2ed2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="15" height="15" uuid="3da2db17-9baf-4fb0-9518-2208415979a7"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="26" y="21" width="92" height="15" uuid="14811ec0-d3ce-4dd0-b60e-16c276088816"/>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="118" y="19" width="59" height="15" uuid="bde93f84-d781-4d4d-83dd-3e6c99fc27d5"/>
+				<text><![CDATA[Fotografia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="177" y="19" width="41" height="15" uuid="5e2e4722-a45d-4c16-bb27-c8b40e7d8828"/>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="218" y="19" width="79" height="15" uuid="2edb0801-f4bb-43d3-9b91-d20f8f2af0f9"/>
+				<text><![CDATA[Laboratorio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="313" y="19" width="47" height="15" uuid="96cb223e-7ba3-4553-99d3-c5a38bae2648"/>
+				<text><![CDATA[Carrera]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="407" y="19" width="52" height="15" uuid="878c93e3-8260-40ab-b9c9-309a6256de64"/>
+				<text><![CDATA[Docente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="491" y="20" width="46" height="15" uuid="8bb16159-6ea5-4141-b268-35ed1acfc7ad"/>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="4b719fa6-d07a-4532-930c-dda1640feef0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="55e0f64d-673c-4a8c-82a4-6539a68d19e2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="1309ee0e-c09c-4a98-9749-ed9ef75c3a19"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina  "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="057e4793-f741-4933-9679-d3cb2b45b838"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="-1" y="0" width="197" height="20" uuid="b6529dec-26bb-4914-8a51-ba4d5dd2269f"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
