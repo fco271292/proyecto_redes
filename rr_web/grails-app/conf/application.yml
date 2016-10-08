@@ -50,6 +50,7 @@ grails:
             xml:
               - text/xml
               - application/xml
+            excel: 'application/vnd.ms-excel'
     urlmapping:
         cache:
             maxsize: 1000
