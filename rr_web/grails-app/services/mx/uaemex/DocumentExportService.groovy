@@ -16,8 +16,17 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 @Transactional
 class DocumentExportService {
 
+	def assetResourceLocator
+
 	def exportDocumentPDF() {
+		def logoReportPDF = assetResourceLocator.findAssetForURI('UAEMex.png')
 		
+		File tmpLogoReportPDF = File.createTempFile("tmp",".png")  
+		tmpLogoReportPDF.deleteOnExit() 
+    tmpLogoReportPDF.withOutputStream { stream ->
+    	stream <<  logoReportPDF.byteArray
+		}
+
 		URL reportJasperURL = this.class.classLoader.getResource('report_bitacora.jrxml')
 		String fileNamePDF = "Bitacora_${new Date().format('dd_MMMMM_yyyy')}.pdf"
 
@@ -34,11 +43,12 @@ class DocumentExportService {
 			
 			// Parametros del reporte
 			Map<String,String> reportParam = new HashMap<String,String>()
+			reportParam	<<	["LOGO_PDF": tmpLogoReportPDF.getAbsolutePath()]
 
 			List data = []
 			List bitacoraList = Bitacora.list()
 			bitacoraList.each{row-> 
-				data    <<  ["bitacora_id": row.id ?: "", "bitacora_date_created": row.dateCreated ?: "", "bitacora_document_id": row.document?.fileName ?: "",
+				data    <<  ["bitacora_id": row.id ?: "", "bitacora_date_created": row.dateCreated ?: "", "bitacora_document_id": row.document?.fullPath ?: "",
 				"bitacora_group_name": row.groupName ?: "", "bitacora_laboratory_id": row.laboratory?.name ?: "", 
 				"bitacora_career_id": row.career?.name ?: "", "bitacora_teacher_id": "${row.teacher?.name} ${row.teacher?.lastName}" ?: "",
 				"bitacora_user_id": "${row.user?.name} ${row.user?.lastName}" ?: ""
