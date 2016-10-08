@@ -19,14 +19,8 @@ class DocumentExportService {
 	def assetResourceLocator
 
 	def exportDocumentPDF() {
-		def logoReportPDF = assetResourceLocator.findAssetForURI('UAEMex.png')
 		
-		File tmpLogoReportPDF = File.createTempFile("tmp",".png")  
-		tmpLogoReportPDF.deleteOnExit() 
-    tmpLogoReportPDF.withOutputStream { stream ->
-    	stream <<  logoReportPDF.byteArray
-		}
-
+		URL logoReportURL = this.class.classLoader.getResource('UAEMex.png')
 		URL reportJasperURL = this.class.classLoader.getResource('report_bitacora.jrxml')
 		String fileNamePDF = "Bitacora_${new Date().format('dd_MMMMM_yyyy')}.pdf"
 
@@ -43,7 +37,7 @@ class DocumentExportService {
 			
 			// Parametros del reporte
 			Map<String,String> reportParam = new HashMap<String,String>()
-			reportParam	<<	["LOGO_PDF": tmpLogoReportPDF.getAbsolutePath()]
+			reportParam	<<	["LOGO_PDF": logoReportURL.toURI()]
 
 			List data = []
 			List bitacoraList = Bitacora.list()
